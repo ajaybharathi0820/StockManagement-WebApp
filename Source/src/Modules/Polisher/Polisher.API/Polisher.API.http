@@ -1,0 +1,6 @@
+@Polisher.API_HostAddress = http://localhost:5235
+
+GET {{Polisher.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
