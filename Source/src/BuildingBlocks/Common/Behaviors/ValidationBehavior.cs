@@ -1,7 +1,8 @@
 using FluentValidation;
 using MediatR;
+using Common.Models;
 
-namespace Polisher.Application.Behaviors;
+namespace Common.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>

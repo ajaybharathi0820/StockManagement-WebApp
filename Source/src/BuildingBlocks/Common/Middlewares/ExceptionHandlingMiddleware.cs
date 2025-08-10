@@ -1,8 +1,10 @@
 using System.Net;
-using System.Text.Json;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
+using Common.Models;
+using Microsoft.Extensions.Logging;
 
-namespace StockManagement.API.Middlewares
+namespace Common.Middlewares
 {
     public class ExceptionHandlingMiddleware
     {
@@ -24,25 +26,16 @@ namespace StockManagement.API.Middlewares
             catch (ValidationException ex) // FluentValidation
             {
                 _logger.LogWarning(ex, "Validation failed");
-
-                var errors = ex.Errors.Select(e => new { e.PropertyName, e.ErrorMessage });
-                var response = new { message = "Validation Failed", errors };
-
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.Response.ContentType = "application/json";
-
-                await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                await context.Response.WriteAsJsonAsync(ApiResponse<string>.FailResponse(ex.Errors.Select(e => e.ErrorMessage)));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unhandled exception");
-
-                var response = new { message = "An unexpected error occurred" };
-
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";
-
-                await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                await context.Response.WriteAsJsonAsync(ApiResponse<string>.FailResponse(ex.Message));
             }
         }
     }

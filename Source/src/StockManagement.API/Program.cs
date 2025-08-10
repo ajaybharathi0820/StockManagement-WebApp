@@ -1,4 +1,5 @@
 using Polisher.API.Extensions;
+using Common.Extensions;
 using StockManagement.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ var connectionString = builder.Configuration.GetConnectionString("Default")!;
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddPolisherModule(connectionString);
+builder.Services.UseSharedServices();
 
 var app = builder.Build();
 
