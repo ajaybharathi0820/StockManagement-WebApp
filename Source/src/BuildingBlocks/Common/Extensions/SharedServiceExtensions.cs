@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Common.Extensions
 {
-    public static class SharedServiceCollections
+    public static class SharedServiceExtensions
     {
         public static IServiceCollection UseSharedServices(this IServiceCollection services)
         {

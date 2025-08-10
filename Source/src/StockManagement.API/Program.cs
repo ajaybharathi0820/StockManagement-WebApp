@@ -9,6 +9,8 @@ var connectionString = builder.Configuration.GetConnectionString("Default")!;
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
+// Configure Serilog via extension
+builder.Host.ConfigureSerilog(builder.Configuration, builder.Environment.EnvironmentName);
 builder.Services.AddPolisherModule(connectionString);
 builder.Services.UseSharedServices();
 
