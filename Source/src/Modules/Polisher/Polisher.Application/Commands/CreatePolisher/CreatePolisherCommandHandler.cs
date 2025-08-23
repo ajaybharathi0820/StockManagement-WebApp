@@ -21,9 +21,9 @@ public class CreatePolisherCommandHandler : IRequestHandler<CreatePolisherComman
         var polisher = new Polisher.Domain.Entities.Polisher
         (
             Guid.NewGuid(),
-            createRequest.polisher.FirstName,
-            createRequest.polisher.LastName,
-            createRequest.polisher.ContactNumber
+            createRequest.Polisher.FirstName,
+            createRequest.Polisher.LastName,
+            createRequest.Polisher.ContactNumber
         );
 
         await _polisherRepository.AddAsync(polisher, cancellationToken);
