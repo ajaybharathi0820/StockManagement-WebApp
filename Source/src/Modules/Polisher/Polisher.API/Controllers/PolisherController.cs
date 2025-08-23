@@ -56,7 +56,7 @@ public class PolisherController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreatePolisherCommand command)
     {
         var createdId = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetById), new { id = createdId }, null);
+        return Ok(createdId);
     }
 
     /// <summary>
