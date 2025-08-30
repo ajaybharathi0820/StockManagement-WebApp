@@ -9,6 +9,7 @@
    <ItemGroup>
     <ProjectReference Include="..\Modules\Polisher\Polisher.API\Polisher.API.csproj" />
     <ProjectReference Include="..\BuildingBlocks\Common\Common.csproj" />
+    <ProjectReference Include="..\Identity\Identity.API\Identity.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

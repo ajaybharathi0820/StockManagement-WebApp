@@ -1,5 +1,6 @@
 using Polisher.API.Extensions;
 using Common.Extensions;
+using Identity.API.Extensions;
 using StockManagement.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 // Configure Serilog via extension
 builder.Host.ConfigureSerilog(builder.Configuration, builder.Environment.EnvironmentName);
+builder.Services.AddIdentity(builder.Configuration,connectionString);
 builder.Services.AddPolisherModule(connectionString);
 builder.Services.UseSharedServices();
 
@@ -24,6 +26,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();   // ✅ must be before UseAuthorization
+app.UseAuthorization();
 app.UseHttpsRedirection();
 
 app.MapGet("/api/health", () =>

@@ -19,13 +19,6 @@ public class PolisherController : ControllerBase
         _mediator = mediator;
     }
 
-    // [HttpPost]
-    // public async Task<IActionResult> Create(CreatePolisherCommand command, CancellationToken cancellationToken)
-    // {
-    //     var result = await _mediator.Send(command, cancellationToken);
-    //     return Ok(result);
-    // }
-
     /// <summary>
     /// Get all polishers
     /// </summary>

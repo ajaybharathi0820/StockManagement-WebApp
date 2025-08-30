@@ -5,7 +5,7 @@ param(
 )
 
 # Paths
-$ProjectPath = "Source/src/Modules/$ModuleName/$ModuleName.Infrastructure"
+$ProjectPath = "Source/src/$ModuleName/$ModuleName.Infrastructure"
 $StartupPath = "Source/src/StockManagement.API"
 $MigrationsPath = "Persistence/Migrations"
 
