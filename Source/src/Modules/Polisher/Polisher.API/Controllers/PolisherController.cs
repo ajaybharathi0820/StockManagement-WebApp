@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Polisher.Application.Commands.CreatePolisher;
 using Polisher.Application.Commands.DeletePolisher;
 using Polisher.Application.Commands.UpdatePolisher;
@@ -10,6 +11,7 @@ namespace Polisher.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+//[Authorize]
 public class PolisherController : ControllerBase
 {
     private readonly IMediator _mediator;

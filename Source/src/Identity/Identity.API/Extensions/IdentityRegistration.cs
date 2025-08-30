@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Identity.Infrastructure.Extensions;
+using Identity.Application.Extensions;
+
 using Identity.API.Controllers;
 
 namespace Identity.API.Extensions
@@ -11,6 +13,7 @@ namespace Identity.API.Extensions
     {
         public static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration,string connectionString)
         {
+            services.AddApplicationServices();
             services.AddIdentityAuthentication(configuration);
             services.AddInfrastructureServices(connectionString);
             services.AddControllers()

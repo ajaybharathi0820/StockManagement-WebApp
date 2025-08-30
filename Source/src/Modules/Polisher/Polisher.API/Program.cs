@@ -18,11 +18,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/api/health", () =>
-{
-    return Results.Ok("API is up and running 🚀");
-});
-
 app.MapControllers();
 
 app.Run();
