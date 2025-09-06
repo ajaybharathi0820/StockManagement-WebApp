@@ -9,6 +9,6 @@ namespace Identity.Application.Users.Commands.CreateUser
         int Age,
         string Email,
         string Password,
-        int RoleId
+        Guid RoleId
     ) : IRequest<Guid>;
 }

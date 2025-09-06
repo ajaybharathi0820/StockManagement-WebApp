@@ -14,6 +14,6 @@ namespace Identity.Application.Users.Commands.UpdateUser
 
         public int Age { get; set; }
 
-        public int RoleId { get; set; }
+        public Guid RoleId { get; set; }
     }
 }

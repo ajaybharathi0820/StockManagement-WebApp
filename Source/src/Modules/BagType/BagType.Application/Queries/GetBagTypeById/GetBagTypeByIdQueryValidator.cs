@@ -7,7 +7,7 @@ namespace BagType.Application.Queries.GetBagTypeById
         public GetBagTypeByIdQueryValidator()
         {
             RuleFor(x => x.Id)
-                .GreaterThan(0).WithMessage("BagType Id must be greater than 0.");
+                .NotEmpty().WithMessage("BagType Id must not be empty.");
         }
     }
 }

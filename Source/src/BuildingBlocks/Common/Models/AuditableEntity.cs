@@ -6,6 +6,6 @@ namespace Common.Models
         public string CreatedBy { get; protected set; }
         public DateTime? UpdatedDate { get; protected set; }
         public string? UpdatedBy { get; protected set; }
-        public bool IsActive { get; protected set; } = true;
+        public bool IsActive { get; set; } = true;
     }
 }

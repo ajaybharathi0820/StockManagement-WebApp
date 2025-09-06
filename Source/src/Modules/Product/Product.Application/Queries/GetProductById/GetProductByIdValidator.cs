@@ -11,7 +11,7 @@ namespace Product.Application.Queries.GetProductById
         public GetProductByIdValidator()
         {
             RuleFor(x => x.Id)
-                .GreaterThan(0).WithMessage("Product Id must be greater than 0");
+                .NotEmpty().WithMessage("Product Id must not be empty");
         }
     }
 }

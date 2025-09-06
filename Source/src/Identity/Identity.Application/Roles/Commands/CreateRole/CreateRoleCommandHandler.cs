@@ -8,7 +8,7 @@ using Identity.Domain.Repositories;
 
 namespace Identity.Application.Roles.Commands.CreateRole
 {
-    public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, int>
+    public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Guid>
     {
         private readonly IRoleRepository _roleRepository;
 
@@ -17,7 +17,7 @@ namespace Identity.Application.Roles.Commands.CreateRole
             _roleRepository = roleRepository;
         }
 
-        public async Task<int> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
         {
             var role = new Role(request.Name);
             await _roleRepository.AddAsync(role,cancellationToken);

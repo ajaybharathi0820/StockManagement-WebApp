@@ -38,8 +38,8 @@ namespace BagType.API.Controllers
         /// <summary>
         /// Get a bag type by ID
         /// </summary>
-        [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetById(Guid id)
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetById(Guid id)
         {
             var result = await _mediator.Send(new GetBagTypeByIdQuery(id) );
             if (result == null)
@@ -61,8 +61,8 @@ namespace BagType.API.Controllers
         /// <summary>
         /// Update an existing bag type
         /// </summary>
-        [HttpPut("{id:int}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateBagTypeCommand command)
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateBagTypeCommand command)
         {
             if (id != command.BagType.Id)
                 return BadRequest("ID in URL and body do not match");
@@ -74,8 +74,8 @@ namespace BagType.API.Controllers
         /// <summary>
         /// Delete a bag type
         /// </summary>
-        [HttpDelete("{id:int}")]
-    public async Task<IActionResult> Delete(Guid id)
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _mediator.Send(new DeleteBagTypeCommand { Id = id });
             return NoContent();

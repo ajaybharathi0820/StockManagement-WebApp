@@ -7,7 +7,7 @@ namespace BagType.Application.Commands.DeleteBagType
         public DeleteBagTypeCommandValidator()
         {
             RuleFor(x => x.Id)
-                .GreaterThan(0).WithMessage("Id must be greater than 0");
+                .NotEmpty().WithMessage("Id must not be empty");
         }
     }
 }

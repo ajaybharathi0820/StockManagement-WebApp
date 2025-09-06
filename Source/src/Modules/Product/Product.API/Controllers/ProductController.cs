@@ -35,8 +35,8 @@ namespace Product.API.Controllers
         }
 
         // GET: api/product/{id}
-        [HttpGet("{id:int}")]
-    public async Task<ActionResult<ProductDto>> GetById(Guid id)
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<ProductDto>> GetById(Guid id)
         {
             var result = await _mediator.Send(new GetProductByIdQuery(id));
             if (result == null) return NotFound();
@@ -61,8 +61,8 @@ namespace Product.API.Controllers
         }
 
         // PUT: api/product/{id}
-        [HttpPut("{id:int}")]
-    public async Task<ActionResult> Update(Guid id, [FromBody] UpdateProductCommand command)
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult> Update(Guid id, [FromBody] UpdateProductCommand command)
         {
             if (id != command.Product.Id) return BadRequest("Product ID mismatch");
 
@@ -71,8 +71,8 @@ namespace Product.API.Controllers
         }
 
         // DELETE: api/product/{id}
-        [HttpDelete("{id:int}")]
-    public async Task<ActionResult> Delete(Guid id)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> Delete(Guid id)
         {
             await _mediator.Send(new DeleteProductCommand{ Id = id });
             return NoContent();

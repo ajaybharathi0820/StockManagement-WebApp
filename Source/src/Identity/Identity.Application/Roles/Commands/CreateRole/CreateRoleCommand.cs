@@ -6,5 +6,5 @@ using MediatR;
 
 namespace Identity.Application.Roles.Commands.CreateRole
 {
-    public record CreateRoleCommand(string Name) : IRequest<int>;
+    public record CreateRoleCommand(string Name) : IRequest<Guid>;
 }

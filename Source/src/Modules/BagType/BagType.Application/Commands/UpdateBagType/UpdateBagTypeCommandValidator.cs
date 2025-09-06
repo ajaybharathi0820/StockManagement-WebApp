@@ -11,7 +11,7 @@ namespace BagType.Application.Commands.UpdateBagType
         public UpdateBagTypeCommandValidator()
         {
             RuleFor(x => x.BagType.Id)
-                .GreaterThan(0).WithMessage("Id must be greater than 0");
+                .NotEmpty().WithMessage("Id must not be empty");
 
             RuleFor(x => x.BagType.Name)
                 .NotEmpty().WithMessage("Name is required")

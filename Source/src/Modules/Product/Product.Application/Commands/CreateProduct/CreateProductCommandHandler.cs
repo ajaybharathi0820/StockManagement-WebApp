@@ -19,6 +19,7 @@ namespace Product.Application.Commands.CreateProduct
         {
             var product = new Product.Domain.Entities.Product
             {
+                Id = Guid.NewGuid(),
                 ProductCode = request.Product.ProductCode,
                 Name = request.Product.Name,
                 Weight = request.Product.Weight,
@@ -28,7 +29,7 @@ namespace Product.Application.Commands.CreateProduct
 
             await _productRepository.AddAsync(product, cancellationToken);
 
-            return product.Id;
+            return 1; // Success indicator since Product uses Guid ID
 
         }
     }

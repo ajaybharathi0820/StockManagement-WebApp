@@ -21,6 +21,16 @@ builder.Services.AddBagTypeModule(connectionString);
 builder.Services.AddProductModule(connectionString);
 builder.Services.AddProductionModule(connectionString);
 builder.Services.UseSharedServices();
+// Add CORS policy for frontend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy => policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+    );
+});
 
 var app = builder.Build();
 
@@ -31,6 +41,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Use CORS before authentication/authorization
+app.UseCors("AllowFrontend");
 
 app.UseAuthentication();   // ✅ must be before UseAuthorization
 app.UseAuthorization();

@@ -10,7 +10,7 @@ namespace Product.Application.Commands.DeleteProduct
     {
         public DeleteProductCommandValidator()
         {
-            RuleFor(x => x.Id).GreaterThan(0);
+            RuleFor(x => x.Id).NotEmpty().WithMessage("Product Id must not be empty");
         }
     }
 }

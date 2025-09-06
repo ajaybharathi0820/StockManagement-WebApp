@@ -20,13 +20,14 @@ namespace BagType.Application.Commands.CreateBagType
         {
             var entity = new BagType.Domain.Entities.BagType
             {
+                Id = Guid.NewGuid(),
                 Name = request.BagType.Name,
                 Weight = request.BagType.Weight
             };
 
             await _repository.AddAsync(entity,cancellationToken);
 
-            return entity.Id;
+            return 1; // Success indicator since BagType uses Guid ID
         }
         
     }

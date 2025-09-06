@@ -17,14 +17,14 @@ namespace Identity.Domain.Entities
         public string Email { get; private set; }
         public string Password { get; private set; }
 
-        public int RoleId { get; private set; }
+        public Guid RoleId { get; private set; }
         //Navigation
         [ForeignKey("RoleId")]
         public virtual Role ? Role {get;set;}
 
         private User() { } // EF Core
 
-        public User(string firstName, string lastName, string userName, int age, string email, string password, int roleId)
+        public User(string firstName, string lastName, string userName, int age, string email, string password, Guid roleId)
         {
             Id = Guid.NewGuid();
             FirstName = firstName;
@@ -42,7 +42,7 @@ namespace Identity.Domain.Entities
             Password = newPassword;
         }
 
-        public void UpdateUser(string firstName, string lastName, int age, string email, int roleId)
+        public void UpdateUser(string firstName, string lastName, int age, string email, Guid roleId)
         {
             FirstName = firstName;
             LastName = lastName;

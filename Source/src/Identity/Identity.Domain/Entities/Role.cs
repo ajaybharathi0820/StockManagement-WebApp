@@ -6,7 +6,7 @@ namespace Identity.Domain.Entities
     public class Role
     {
         [Key]
-    public Guid Id { get; set; }
+        public Guid Id { get; private set; }
         public string Name { get; private set; }
         public bool IsActive { get; private set; }
 
@@ -16,6 +16,7 @@ namespace Identity.Domain.Entities
 
         public Role(string name)
         {
+            Id = Guid.NewGuid();
             Name = name;
             IsActive = true;
         }
