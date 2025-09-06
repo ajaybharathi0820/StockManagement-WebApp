@@ -10,6 +10,7 @@
     <ProjectReference Include="..\Modules\Polisher\Polisher.API\Polisher.API.csproj" />
     <ProjectReference Include="..\Modules\BagType\BagType.API\BagType.API.csproj" />
     <ProjectReference Include="..\Modules\Product\Product.API\Product.API.csproj" />
+    <ProjectReference Include="..\Modules\Production\Production.API\Production.API.csproj" />
     <ProjectReference Include="..\BuildingBlocks\Common\Common.csproj" />
     <ProjectReference Include="..\Identity\Identity.API\Identity.API.csproj" />
   </ItemGroup>

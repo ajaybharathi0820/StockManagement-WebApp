@@ -3,6 +3,7 @@ using Common.Extensions;
 using Identity.API.Extensions;
 using BagType.API.Extensions;
 using Product.API.Extensions;
+using Production.API.Extensions;
 using StockManagement.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,7 @@ builder.Services.AddIdentity(builder.Configuration,connectionString);
 builder.Services.AddPolisherModule(connectionString);
 builder.Services.AddBagTypeModule(connectionString);
 builder.Services.AddProductModule(connectionString);
+builder.Services.AddProductionModule(connectionString);
 builder.Services.UseSharedServices();
 
 var app = builder.Build();
