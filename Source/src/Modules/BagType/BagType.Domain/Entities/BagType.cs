@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 
 namespace BagType.Domain.Entities
 {
-    public class BagType
+    using Common.Models;
+
+    public class BagType : AuditableEntity
     {
-        public int Id { get; set; }          // Primary Key
+    public Guid Id { get; set; }          // Primary Key
         public string Name { get; set; } = string.Empty;
         public decimal Weight { get; set; }  // Weight per bag type
-        public bool IsActive { get; set; } = true;
+    // ...existing code...
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
     }

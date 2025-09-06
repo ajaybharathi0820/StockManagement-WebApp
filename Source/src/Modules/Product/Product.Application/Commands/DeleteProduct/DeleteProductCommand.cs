@@ -8,6 +8,6 @@ namespace Product.Application.Commands.DeleteProduct
 {
     public class DeleteProductCommand : IRequest<bool>
     {
-        public int Id { get; set; }
+    public Guid Id { get; set; }
     }
 }

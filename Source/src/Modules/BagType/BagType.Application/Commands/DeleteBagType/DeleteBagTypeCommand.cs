@@ -9,6 +9,6 @@ namespace BagType.Application.Commands.DeleteBagType
 {
     public class DeleteBagTypeCommand : IRequest<bool>
     {
-        public int Id { get; set; }
+    public Guid Id { get; set; }
     }
 }

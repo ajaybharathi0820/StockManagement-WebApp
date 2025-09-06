@@ -11,7 +11,6 @@ namespace Product.Domain.Repositories
         Task AddAsync(Domain.Entities.Product product, CancellationToken cancellationToken = default);
 
         // Read
-        Task<Domain.Entities.Product> GetByIdAsync(int id, CancellationToken cancellationToken = default);
         Task<Domain.Entities.Product> GetByCodeAsync(string productCode, CancellationToken cancellationToken = default);
         Task<IEnumerable<Domain.Entities.Product>> GetAllAsync(CancellationToken cancellationToken = default);
 
@@ -19,6 +18,7 @@ namespace Product.Domain.Repositories
         Task UpdateAsync(Domain.Entities.Product product, CancellationToken cancellationToken = default);
 
         // Delete (soft delete using IsActive flag)
-        Task DeleteAsync(int id, CancellationToken cancellationToken = default);
+        Task<Domain.Entities.Product> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

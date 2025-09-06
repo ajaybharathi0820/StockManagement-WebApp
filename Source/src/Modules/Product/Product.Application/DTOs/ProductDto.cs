@@ -7,7 +7,7 @@ namespace Product.Application.DTOs
 {
     public class ProductDto
     {
-        public int Id { get; set; }
+    public Guid Id { get; set; }
         public string ProductCode { get; set; }
         public string Name { get; set; }
         public decimal Weight { get; set; }

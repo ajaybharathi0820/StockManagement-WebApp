@@ -6,7 +6,7 @@ namespace Identity.Domain.Entities
     public class Role
     {
         [Key]
-        public int Id { get; set; }
+    public Guid Id { get; set; }
         public string Name { get; private set; }
         public bool IsActive { get; private set; }
 

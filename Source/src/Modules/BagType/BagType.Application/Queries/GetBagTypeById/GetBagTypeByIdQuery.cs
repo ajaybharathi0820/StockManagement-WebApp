@@ -7,5 +7,5 @@ using BagType.Application.DTOs;
 
 namespace BagType.Application.Queries.GetBagTypeById
 {
-    public record GetBagTypeByIdQuery(int Id) : IRequest<BagTypeDto>;
+    public record GetBagTypeByIdQuery(Guid Id) : IRequest<BagTypeDto>;
 }

@@ -1,6 +1,8 @@
 namespace Polisher.Domain.Entities;
 
-public class Polisher
+using Common.Models;
+
+public class Polisher : AuditableEntity
 {
     public Guid Id { get; private set; }
     public string FirstName { get; private set; }

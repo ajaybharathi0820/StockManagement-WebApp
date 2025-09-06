@@ -27,7 +27,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(Guid id)
         {
             var role = await _mediator.Send(new GetRoleByIdQuery(id));
             if (role == null)
@@ -43,7 +43,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateRoleCommand command)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateRoleCommand command)
         {
             if (id != command.Id)
                 return BadRequest("ID mismatch");
@@ -53,7 +53,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
         {
             await _mediator.Send(new DeleteRoleCommand(id));
             return NoContent();

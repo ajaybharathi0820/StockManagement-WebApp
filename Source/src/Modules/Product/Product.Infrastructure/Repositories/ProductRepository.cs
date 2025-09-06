@@ -20,7 +20,7 @@ namespace Product.Infrastructure.Repositories
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<Product.Domain.Entities.Product> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Product.Domain.Entities.Product> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _context.Products
                 .FirstOrDefaultAsync(p => p.Id == id && p.IsActive, cancellationToken);
@@ -45,7 +45,7 @@ namespace Product.Infrastructure.Repositories
             await _context.SaveChangesAsync(cancellationToken);
         }
         
-        public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var product = await _context.Products.FindAsync(new object[] { id }, cancellationToken);
 

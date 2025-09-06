@@ -18,7 +18,7 @@ namespace Identity.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Role?> GetByIdAsync(int id,CancellationToken cancellationToken)
+    public async Task<Role?> GetByIdAsync(Guid id,CancellationToken cancellationToken)
         {
             return await _context.Roles.FirstOrDefaultAsync(r => r.Id == id);
         }

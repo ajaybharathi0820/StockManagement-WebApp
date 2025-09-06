@@ -2,4 +2,4 @@ namespace Identity.Application.Roles.Commands.DeleteRole;
 
 using MediatR;
 
-public record DeleteRoleCommand(int Id) : IRequest<bool>;
+public record DeleteRoleCommand(Guid Id) : IRequest<bool>;

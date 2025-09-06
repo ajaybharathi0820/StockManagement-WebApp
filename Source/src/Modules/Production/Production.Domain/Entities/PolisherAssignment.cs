@@ -1,12 +1,12 @@
 namespace Production.Domain.Entities
 {
-    public class PolisherAssignment
+    using Common.Models;
+
+    public class PolisherAssignment : AuditableEntity
     {
         public Guid Id { get; private set; }
         public Guid PolisherId { get; private set; }
         public string PolisherName { get; private set; } // snapshot
-        public DateTime CreatedDate { get; private set; }
-        public string CreatedBy { get; private set; }
 
         private readonly List<PolisherAssignmentItem> _items = new();
         public IReadOnlyCollection<PolisherAssignmentItem> Items => _items.AsReadOnly();
@@ -20,6 +20,7 @@ namespace Production.Domain.Entities
             PolisherName = polisherName;
             CreatedBy = createdBy;
             CreatedDate = DateTime.UtcNow;
+            IsActive = true;
         }
 
         public void AddItem(

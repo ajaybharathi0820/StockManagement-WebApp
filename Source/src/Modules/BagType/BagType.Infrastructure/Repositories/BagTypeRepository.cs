@@ -17,7 +17,7 @@ namespace BagType.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<BagType.Domain.Entities.BagType?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<BagType.Domain.Entities.BagType?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return await _context.BagTypes.FindAsync(new object[] { id }, cancellationToken);
         }

@@ -7,7 +7,7 @@ namespace BagType.Application.DTOs
 {
     public class BagTypeDto
     {
-        public int Id { get; set; }
+    public Guid Id { get; set; }
         public string Name { get; set; }
         public decimal Weight { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -7,5 +7,5 @@ using Product.Application.DTOs;
 
 namespace Product.Application.Queries.GetProductById
 {
-    public record GetProductByIdQuery(int Id) : IRequest<ProductDto>;
+    public record GetProductByIdQuery(Guid Id) : IRequest<ProductDto>;
 }

@@ -4,14 +4,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Identity.Domain.Entities
 {
-    public class User
+    using Common.Models;
+
+    public class User : AuditableEntity
     {
         public Guid Id { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string UserName { get; private set; }
         public int Age { get; private set; }
-        public bool IsActive { get; private set; }
+    // ...existing code...
         public string Email { get; private set; }
         public string Password { get; private set; }
 
