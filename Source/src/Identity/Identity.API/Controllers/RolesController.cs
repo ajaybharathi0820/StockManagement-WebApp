@@ -10,6 +10,7 @@ namespace Identity.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class RolesController : ControllerBase
     {
         private readonly IMediator _mediator;

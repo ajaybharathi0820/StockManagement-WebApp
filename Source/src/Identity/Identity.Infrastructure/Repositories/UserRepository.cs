@@ -19,13 +19,13 @@ namespace Identity.Infrastructure.Repositories
         }
 
         public async Task<User?> GetByIdAsync(Guid id,CancellationToken cancellationToken) =>
-            await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(x => x.Id == id);
+            await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
 
         public async Task<User?> GetByUsernameAsync(string username,CancellationToken cancellationToken) =>
-            await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(x => x.UserName == username);
+            await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(x => x.UserName == username && x.IsActive);
 
         public async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken) =>
-            await _context.Users.Include(u => u.Role).ToListAsync();
+            await _context.Users.Include(u => u.Role).Where(u => u.IsActive).ToListAsync();
 
         public async Task AddAsync(User user,CancellationToken cancellationToken)
         {
@@ -41,7 +41,8 @@ namespace Identity.Infrastructure.Repositories
 
         public async Task DeleteAsync(User user,CancellationToken cancellationToken)
         {
-            _context.Users.Remove(user);
+            user.DeleteUser(); // Soft delete
+            _context.Users.Update(user);
             await _context.SaveChangesAsync(cancellationToken);
         }
     }

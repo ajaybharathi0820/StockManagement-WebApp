@@ -24,6 +24,7 @@ public class PolisherRepository : IPolisherRepository
     {
         return await _context.Polishers
             .AsNoTracking()
+            .Where(p => p.IsActive)
             .ToListAsync(cancellationToken);
     }
 
@@ -31,7 +32,7 @@ public class PolisherRepository : IPolisherRepository
     {
         return await _context.Polishers
             .AsNoTracking()
-            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(p => p.Id == id && p.IsActive, cancellationToken);
     }
 
     public async Task UpdateAsync(Polisher.Domain.Entities.Polisher polisher, CancellationToken cancellationToken)
@@ -42,10 +43,11 @@ public class PolisherRepository : IPolisherRepository
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        var polisher = await _context.Polishers.FindAsync(id);
+        var polisher = await _context.Polishers.FindAsync(new object[] { id }, cancellationToken);
         if (polisher != null)
         {
-            _context.Polishers.Remove(polisher);
+            polisher.IsActive = false; // Soft delete
+            _context.Polishers.Update(polisher);
             await _context.SaveChangesAsync(cancellationToken);
         }
     }

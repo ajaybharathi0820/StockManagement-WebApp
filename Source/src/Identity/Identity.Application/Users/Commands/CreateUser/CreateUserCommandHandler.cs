@@ -32,6 +32,10 @@ namespace Identity.Application.Users.Commands.CreateUser
                 role.Id
             );
 
+            // Audit
+            var createdBy = !string.IsNullOrWhiteSpace(request.CurrentUserId) ? request.CurrentUserId! : "System";
+            user.MarkCreated(createdBy);
+
             await _userRepo.AddAsync(user,cancellationToken);
             return user.Id;
         }

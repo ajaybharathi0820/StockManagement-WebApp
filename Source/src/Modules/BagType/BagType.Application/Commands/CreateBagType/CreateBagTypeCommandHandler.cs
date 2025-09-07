@@ -7,7 +7,7 @@ using MediatR;
 
 namespace BagType.Application.Commands.CreateBagType
 {
-    public class CreateBagTypeCommandHandler : IRequestHandler<CreateBagTypeCommand, int>
+    public class CreateBagTypeCommandHandler : IRequestHandler<CreateBagTypeCommand, Guid>
     {
         private readonly IBagTypeRepository _repository;
 
@@ -16,18 +16,19 @@ namespace BagType.Application.Commands.CreateBagType
             _repository = repository;
         }
 
-        public async Task<int> Handle(CreateBagTypeCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateBagTypeCommand request, CancellationToken cancellationToken)
         {
             var entity = new BagType.Domain.Entities.BagType
             {
                 Id = Guid.NewGuid(),
                 Name = request.BagType.Name,
-                Weight = request.BagType.Weight
+                Weight = request.BagType.Weight,
             };
+            entity.MarkCreated(!string.IsNullOrWhiteSpace(request.CurrentUserId) ? request.CurrentUserId! : "System");
 
             await _repository.AddAsync(entity,cancellationToken);
 
-            return 1; // Success indicator since BagType uses Guid ID
+            return entity.Id;
         }
         
     }

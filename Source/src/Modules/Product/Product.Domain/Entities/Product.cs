@@ -15,5 +15,20 @@ namespace Product.Domain.Entities
         public decimal Weight { get; set; }        // Product weight
         public DateTime CreatedAt { get; set; }    // Audit field
     // ...existing code...
+
+        // Audit helpers
+        public void MarkCreated(string createdBy)
+        {
+            IsActive = true;
+            CreatedDate = DateTime.UtcNow;
+            CreatedBy = createdBy;
+            CreatedAt = CreatedDate;
+        }
+
+        public void MarkUpdated(string updatedBy)
+        {
+            UpdatedDate = DateTime.UtcNow;
+            UpdatedBy = updatedBy;
+        }
     }
 }

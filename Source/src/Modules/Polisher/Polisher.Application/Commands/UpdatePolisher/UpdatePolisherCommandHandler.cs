@@ -25,6 +25,8 @@ public class UpdatePolisherCommandHandler : IRequestHandler<UpdatePolisherComman
         }
 
         polisher.Update(request.Polisher.FirstName, request.Polisher.LastName, request.Polisher.ContactNumber);
+    var updatedBy = !string.IsNullOrWhiteSpace(request.CurrentUserId) ? request.CurrentUserId! : "System";
+    polisher.MarkUpdated(updatedBy);
 
         await _polisherRepository.UpdateAsync(polisher, cancellationToken);
         _logger.LogInformation("Polisher {Id} updated successfully.", polisher.Id);

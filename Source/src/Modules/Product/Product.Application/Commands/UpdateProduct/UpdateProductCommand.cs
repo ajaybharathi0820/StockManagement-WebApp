@@ -10,5 +10,6 @@ namespace Product.Application.Commands.UpdateProduct
     public class UpdateProductCommand: IRequest<bool>
     {
         public ProductDto Product { get; set; }
+    public string? CurrentUserId { get; set; }
     }
 }

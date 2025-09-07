@@ -21,10 +21,13 @@ namespace Production.Application.Commands.CreatePolisherAssignment
         public async Task<Guid> Handle(CreatePolisherAssignmentCommand request, CancellationToken cancellationToken)
         {
             // Create assignment root
+            var createdBy = !string.IsNullOrWhiteSpace(request.CurrentUserId)
+                ? request.CurrentUserId!
+                : request.polisherAssignment.CreatedBy;
             var assignment = new PolisherAssignment(
                 request.polisherAssignment.PolisherId,
                 request.polisherAssignment.PolisherName,
-                request.polisherAssignment.CreatedBy
+                createdBy
             );
             foreach (var item in request.polisherAssignment.Items)
             {

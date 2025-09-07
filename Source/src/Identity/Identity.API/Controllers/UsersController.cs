@@ -8,11 +8,13 @@ using Identity.Application.Users.Queries.GetAllUsers;
 using Identity.Application.Users.Queries.Login;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Identity.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -41,6 +43,8 @@ namespace Identity.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUserCommand command)
         {
+            // Set auditing
+            command.CurrentUserId ??= User?.FindFirstValue(ClaimTypes.NameIdentifier);
             var userId = await _mediator.Send(command);
             return Ok(userId);
         }
@@ -50,7 +54,8 @@ namespace Identity.API.Controllers
         {
             if (id != command.Id)
                 return BadRequest("ID mismatch");
-
+            // Set auditing
+            command.CurrentUserId ??= User?.FindFirstValue(ClaimTypes.NameIdentifier);
             await _mediator.Send(command);
             return NoContent();
         }
@@ -63,6 +68,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost("login")]
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest command)
         {
             var token = await _mediator.Send(command);
@@ -80,6 +86,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost("forgot-password")]
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand command)
         {
             await _mediator.Send(command);

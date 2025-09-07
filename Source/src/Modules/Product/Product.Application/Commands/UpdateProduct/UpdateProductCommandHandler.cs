@@ -26,7 +26,7 @@ namespace Product.Application.Commands.UpdateProduct
             product.ProductCode = request.Product.ProductCode;
             product.Name = request.Product.Name;
             product.Weight = request.Product.Weight;
-            product.IsActive = request.Product.IsActive;
+            product.MarkUpdated(!string.IsNullOrWhiteSpace(request.CurrentUserId) ? request.CurrentUserId! : "System");
 
             await _productRepository.UpdateAsync(product, cancellationToken);
 

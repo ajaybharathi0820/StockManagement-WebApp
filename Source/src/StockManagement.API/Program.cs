@@ -5,6 +5,8 @@ using BagType.API.Extensions;
 using Product.API.Extensions;
 using Production.API.Extensions;
 using StockManagement.API.Extensions;
+using Identity.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Default")!;
@@ -12,7 +14,41 @@ var connectionString = builder.Configuration.GetConnectionString("Default")!;
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "StockManagement API",
+        Version = "v1"
+    });
+
+    var securityScheme = new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Paste your access token only. The 'Bearer' prefix is added automatically."
+    };
+    options.AddSecurityDefinition("Bearer", securityScheme);
+
+    var securityRequirement = new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    };
+    options.AddSecurityRequirement(securityRequirement);
+});
 // Configure Serilog via extension
 builder.Host.ConfigureSerilog(builder.Configuration, builder.Environment.EnvironmentName);
 builder.Services.AddIdentity(builder.Configuration,connectionString);
@@ -34,6 +70,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Seed Identity data (roles and default admin user)
+await SeedDataAsync(app.Services);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -54,9 +93,57 @@ app.MapGet("/api/health", () =>
     return Results.Ok("API is up and running 🚀");
 });
 
+app.MapGet("/api/seed-identity", async (IServiceProvider services) =>
+{
+    using var scope = services.CreateScope();
+    try
+    {
+        var identityContext = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+        await IdentityDataSeeder.SeedAsync(identityContext);
+        return Results.Ok("✅ Identity data seeded successfully");
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"❌ Error seeding Identity data: {ex.Message}");
+    }
+});
+
+app.MapGet("/api/check-identity", async (IServiceProvider services) =>
+{
+    using var scope = services.CreateScope();
+    try
+    {
+        var identityContext = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+        var rolesCount = await identityContext.Roles.CountAsync();
+        var usersCount = await identityContext.Users.CountAsync();
+        return Results.Ok(new { Roles = rolesCount, Users = usersCount });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"❌ Error checking Identity data: {ex.Message}");
+    }
+});
+
 app.UseShared();
 
 app.MapControllers();
 
 app.Run();
+
+static async Task SeedDataAsync(IServiceProvider services)
+{
+    using var scope = services.CreateScope();
+    try
+    {
+        var identityContext = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+        await IdentityDataSeeder.SeedAsync(identityContext);
+        Console.WriteLine("✅ Identity data seeded successfully");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"❌ Error seeding Identity data: {ex.Message}");
+        Console.WriteLine($"Inner exception: {ex.InnerException?.Message}");
+        Console.WriteLine($"Stack trace: {ex.StackTrace}");
+    }
+}
 

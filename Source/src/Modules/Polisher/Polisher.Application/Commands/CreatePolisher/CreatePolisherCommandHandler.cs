@@ -26,6 +26,10 @@ public class CreatePolisherCommandHandler : IRequestHandler<CreatePolisherComman
             createRequest.Polisher.ContactNumber
         );
 
+    // Set auditing
+    var createdBy = !string.IsNullOrWhiteSpace(createRequest.CurrentUserId) ? createRequest.CurrentUserId! : "System";
+    polisher.MarkCreated(createdBy);
+
         await _polisherRepository.AddAsync(polisher, cancellationToken);
         _logger.LogInformation("Polisher created successfully");
         return polisher.Id;

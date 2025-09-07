@@ -35,6 +35,8 @@ namespace Identity.Domain.Entities
             Password = password;
             RoleId = roleId;
             IsActive = true;
+            CreatedDate = DateTime.UtcNow;
+            CreatedBy = "System";
         }
 
         public void ChangePassword(string newPassword)
@@ -49,6 +51,20 @@ namespace Identity.Domain.Entities
             Age = age;
             Email = email;
             RoleId = roleId;
+        }
+
+        // Audit helpers
+        public void MarkCreated(string createdBy)
+        {
+            IsActive = true;
+            CreatedDate = DateTime.UtcNow;
+            CreatedBy = createdBy;
+        }
+
+        public void MarkUpdated(string updatedBy)
+        {
+            UpdatedDate = DateTime.UtcNow;
+            UpdatedBy = updatedBy;
         }
 
         public void DeleteUser()

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using Polisher.Application.Commands.CreatePolisher;
 using Polisher.Application.Commands.DeletePolisher;
 using Polisher.Application.Commands.UpdatePolisher;
@@ -11,7 +12,7 @@ namespace Polisher.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-//[Authorize]
+[Authorize]
 public class PolisherController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -50,6 +51,8 @@ public class PolisherController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreatePolisherCommand command)
     {
+    // Populate auditing user id from claims if available
+    command.CurrentUserId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
         var createdId = await _mediator.Send(command);
         return Ok(createdId);
     }
@@ -63,6 +66,8 @@ public class PolisherController : ControllerBase
         if (id != command.Polisher.Id)
             return BadRequest("ID in URL and body do not match");
 
+    // Populate auditing user id from claims if available
+    command.CurrentUserId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
         await _mediator.Send(command);
         return NoContent();
     }

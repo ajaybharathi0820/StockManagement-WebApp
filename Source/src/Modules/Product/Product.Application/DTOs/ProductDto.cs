@@ -11,6 +11,5 @@ namespace Product.Application.DTOs
         public string ProductCode { get; set; }
         public string Name { get; set; }
         public decimal Weight { get; set; }
-        public bool IsActive { get; set; }
     }
 }

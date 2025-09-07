@@ -12,11 +12,13 @@ using Product.Application.Commands.DeleteProduct;
 using Product.Application.Queries.GetProductById;
 using Product.Application.Queries.GetAllProducts;
 using Product.Application.Queries.GetProductByCode;
+using System.Security.Claims;
 
 namespace Product.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -56,16 +58,19 @@ namespace Product.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ProductDto>> Create([FromBody] CreateProductCommand command)
         {
+            // populate CurrentUserId for auditing
+            command.CurrentUserId ??= User?.FindFirstValue(ClaimTypes.NameIdentifier);
             var createdId = await _mediator.Send(command);
             return Ok(createdId);
         }
 
         // PUT: api/product/{id}
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> Update(Guid id, [FromBody] UpdateProductCommand command)
+    public async Task<ActionResult> Update(Guid id, [FromBody] UpdateProductCommand command)
         {
             if (id != command.Product.Id) return BadRequest("Product ID mismatch");
 
+            command.CurrentUserId ??= User?.FindFirstValue(ClaimTypes.NameIdentifier);
             await _mediator.Send(command);
             return NoContent();
         }

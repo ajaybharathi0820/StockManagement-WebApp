@@ -19,11 +19,11 @@ namespace BagType.Infrastructure.Repositories
 
     public async Task<BagType.Domain.Entities.BagType?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return await _context.BagTypes.FindAsync(new object[] { id }, cancellationToken);
+            return await _context.BagTypes.AsNoTracking().FirstOrDefaultAsync(b => b.Id == id && b.IsActive, cancellationToken);
         }
         public async Task<List<BagType.Domain.Entities.BagType>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return await _context.BagTypes.AsNoTracking().ToListAsync(cancellationToken);
+            return await _context.BagTypes.AsNoTracking().Where(b => b.IsActive).ToListAsync(cancellationToken);
         }
 
         public async Task AddAsync(BagType.Domain.Entities.BagType bagType, CancellationToken cancellationToken)
@@ -39,7 +39,8 @@ namespace BagType.Infrastructure.Repositories
 
         public async Task DeleteAsync(BagType.Domain.Entities.BagType bagType, CancellationToken cancellationToken)
         {
-            _context.BagTypes.Remove(bagType);
+            bagType.IsActive = false; // Soft delete
+            _context.BagTypes.Update(bagType);
             await _context.SaveChangesAsync(cancellationToken);
         }
     }

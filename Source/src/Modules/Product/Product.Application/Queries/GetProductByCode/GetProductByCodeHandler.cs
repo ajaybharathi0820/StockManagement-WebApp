@@ -28,8 +28,7 @@ namespace Product.Application.Queries.GetProductByCode
                 Id = product.Id,
                 ProductCode = product.ProductCode,
                 Name = product.Name,
-                Weight = product.Weight,
-                IsActive = product.IsActive
+                Weight = product.Weight
             };
         }
     }

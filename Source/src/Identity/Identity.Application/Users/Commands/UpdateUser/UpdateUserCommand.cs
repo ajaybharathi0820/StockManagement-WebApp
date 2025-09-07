@@ -14,6 +14,9 @@ namespace Identity.Application.Users.Commands.UpdateUser
 
         public int Age { get; set; }
 
-        public Guid RoleId { get; set; }
+    public Guid RoleId { get; set; }
+
+    // Set by controller from claims
+    public string? CurrentUserId { get; set; }
     }
 }

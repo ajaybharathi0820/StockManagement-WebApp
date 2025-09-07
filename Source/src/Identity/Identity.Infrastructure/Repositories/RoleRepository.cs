@@ -20,17 +20,17 @@ namespace Identity.Infrastructure.Repositories
 
     public async Task<Role?> GetByIdAsync(Guid id,CancellationToken cancellationToken)
         {
-            return await _context.Roles.FirstOrDefaultAsync(r => r.Id == id);
+            return await _context.Roles.FirstOrDefaultAsync(r => r.Id == id && r.IsActive);
         }
 
         public async Task<Role?> GetByNameAsync(string roleName,CancellationToken cancellationToken)
         {
-            return await _context.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
+            return await _context.Roles.FirstOrDefaultAsync(r => r.Name == roleName && r.IsActive);
         }
 
         public async Task<IReadOnlyList<Role>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return await _context.Roles.AsNoTracking().ToListAsync();
+            return await _context.Roles.AsNoTracking().Where(r => r.IsActive).ToListAsync();
         }
 
         public async Task AddAsync(Role role,CancellationToken cancellationToken)
@@ -47,7 +47,8 @@ namespace Identity.Infrastructure.Repositories
 
         public async Task DeleteAsync(Role role,CancellationToken cancellationToken)
         {
-            _context.Roles.Remove(role);
+            role.DeleteRole();
+            _context.Roles.Update(role);
             await _context.SaveChangesAsync(cancellationToken);
         }
     }

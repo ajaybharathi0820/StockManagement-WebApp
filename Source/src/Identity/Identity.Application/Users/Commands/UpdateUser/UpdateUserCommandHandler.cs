@@ -35,6 +35,10 @@ namespace Identity.Application.Users.Commands.UpdateUser
                 role.Id
             );
 
+            // Audit
+            var updatedBy = !string.IsNullOrWhiteSpace(request.CurrentUserId) ? request.CurrentUserId! : "System";
+            user.MarkUpdated(updatedBy);
+
             await _userRepo.UpdateAsync(user,cancellationToken);
 
             return true;

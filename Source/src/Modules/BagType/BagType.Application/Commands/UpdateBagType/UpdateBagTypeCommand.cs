@@ -10,5 +10,6 @@ namespace BagType.Application.Commands.UpdateBagType
     public class UpdateBagTypeCommand : IRequest<bool>
     {
         public BagTypeDto BagType { get; set; }
+    public string? CurrentUserId { get; set; }
     }
 }

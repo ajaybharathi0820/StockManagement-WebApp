@@ -7,8 +7,9 @@ using MediatR;
 
 namespace BagType.Application.Commands.CreateBagType
 {
-    public class CreateBagTypeCommand : IRequest<int>
+    public class CreateBagTypeCommand : IRequest<Guid>
     {
         public BagTypeDto BagType { get; set; }
+    public string? CurrentUserId { get; set; }
     }
 }

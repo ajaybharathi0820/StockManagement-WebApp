@@ -10,12 +10,13 @@ using BagType.Application.Commands.UpdateBagType;
 using BagType.Application.Commands.DeleteBagType;
 using BagType.Application.Queries.GetBagTypeById;
 using BagType.Application.Queries.GetBagTypes;
+using System.Security.Claims;
 
 namespace BagType.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize] // 🔐 Require authentication, same as Identity + Polisher
+    [Authorize] // 🔐 Require authentication, same as Identity + Polisher
     public class BagTypeController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -54,6 +55,7 @@ namespace BagType.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateBagTypeCommand command)
         {
+            command.CurrentUserId ??= User?.FindFirstValue(ClaimTypes.NameIdentifier);
             var createdId = await _mediator.Send(command);
             return Ok(createdId);
         }
@@ -67,6 +69,7 @@ namespace BagType.API.Controllers
             if (id != command.BagType.Id)
                 return BadRequest("ID in URL and body do not match");
 
+            command.CurrentUserId ??= User?.FindFirstValue(ClaimTypes.NameIdentifier);
             await _mediator.Send(command);
             return NoContent();
         }

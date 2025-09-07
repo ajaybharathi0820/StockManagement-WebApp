@@ -17,7 +17,7 @@ namespace Production.Infrastructure.Repositories
         {
             return await _dbContext.PolisherAssignments
                 .Include(pa => pa.Items) // load children
-                .FirstOrDefaultAsync(pa => pa.Id == id, cancellationToken);
+                .FirstOrDefaultAsync(pa => pa.Id == id && pa.IsActive, cancellationToken);
         }
 
         public async Task<IEnumerable<Domain.Entities.PolisherAssignment>> SearchAsync(
@@ -25,7 +25,8 @@ namespace Production.Infrastructure.Repositories
             CancellationToken cancellationToken = default)
         {
             IQueryable<Domain.Entities.PolisherAssignment> query = _dbContext.PolisherAssignments
-                .Include(pa => pa.Items);
+                .Include(pa => pa.Items)
+                .Where(pa => pa.IsActive);
 
             if (search.PolisherId.HasValue)
             {
@@ -70,7 +71,8 @@ namespace Production.Infrastructure.Repositories
 
             if (assignment != null)
             {
-                _dbContext.PolisherAssignments.Remove(assignment);
+                assignment.IsActive = false; // Soft delete
+                _dbContext.PolisherAssignments.Update(assignment);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
         }

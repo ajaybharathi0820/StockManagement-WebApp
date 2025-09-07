@@ -10,5 +10,6 @@ namespace Production.Application.Commands.CreatePolisherAssignment
         public class CreatePolisherAssignmentCommand : IRequest<Guid>
         {
             public PolisherAssignmentDto polisherAssignment { get; set; }
+            public string? CurrentUserId { get; set; }
         }
 }

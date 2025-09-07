@@ -26,4 +26,18 @@ public class Polisher : AuditableEntity
         LastName = lastName;
         ContactNumber = contactNumber;
     }
+
+    // Audit helpers
+    public void MarkCreated(string createdBy)
+    {
+        IsActive = true;
+        CreatedDate = DateTime.UtcNow;
+        CreatedBy = createdBy;
+    }
+
+    public void MarkUpdated(string updatedBy)
+    {
+        UpdatedDate = DateTime.UtcNow;
+        UpdatedBy = updatedBy;
+    }
 }

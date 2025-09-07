@@ -7,7 +7,7 @@ using Product.Domain.Repositories;
 
 namespace Product.Application.Commands.CreateProduct
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Guid>
     {
         private readonly IProductRepository _productRepository;
 
@@ -15,7 +15,7 @@ namespace Product.Application.Commands.CreateProduct
         {
             _productRepository = productRepository;
         }
-        public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var product = new Product.Domain.Entities.Product
             {
@@ -23,13 +23,13 @@ namespace Product.Application.Commands.CreateProduct
                 ProductCode = request.Product.ProductCode,
                 Name = request.Product.Name,
                 Weight = request.Product.Weight,
-                CreatedAt = DateTime.UtcNow,
-                IsActive = true
+                // set audit via helper below
             };
+            product.MarkCreated(!string.IsNullOrWhiteSpace(request.CurrentUserId) ? request.CurrentUserId! : "System");
 
             await _productRepository.AddAsync(product, cancellationToken);
 
-            return 1; // Success indicator since Product uses Guid ID
+            return product.Id;
 
         }
     }

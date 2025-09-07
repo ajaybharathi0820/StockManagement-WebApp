@@ -6,4 +6,6 @@ namespace Polisher.Application.Commands.UpdatePolisher;
 public class UpdatePolisherCommand : IRequest<bool>
 {
     public PolisherDTO Polisher { get; set; }
+    // For auditing
+    public string? CurrentUserId { get; set; }
 }

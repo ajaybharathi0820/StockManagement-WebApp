@@ -9,11 +9,13 @@ using Production.Application.DTOs;
 using Production.Application.Commands.CreatePolisherAssignment;
 using Production.Application.Queries.GetPolisherAssignmentById;
 using Production.Application.Queries.SearchPolisherAssignments;
+using System.Security.Claims;
 
 namespace Production.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class PolisherAssignmentsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -32,6 +34,7 @@ namespace Production.API.Controllers
             if (command == null || command.polisherAssignment == null)
                 return BadRequest("Invalid request payload.");
 
+            command.CurrentUserId ??= User?.FindFirstValue(ClaimTypes.NameIdentifier);
             var createdId = await _mediator.Send(command, cancellationToken);
             return Ok(createdId);
         }

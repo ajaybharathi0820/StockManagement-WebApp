@@ -7,8 +7,9 @@ using Product.Application.DTOs;
 
 namespace Product.Application.Commands.CreateProduct
 {
-    public class CreateProductCommand : IRequest<int>
+    public class CreateProductCommand : IRequest<Guid>
     {
         public ProductDto Product { get; set; }
+    public string? CurrentUserId { get; set; }
     }
 }

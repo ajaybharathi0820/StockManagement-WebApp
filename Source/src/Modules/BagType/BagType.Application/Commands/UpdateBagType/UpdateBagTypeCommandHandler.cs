@@ -23,7 +23,7 @@ namespace BagType.Application.Commands.UpdateBagType
 
             entity.Name = request.BagType.Name;
             entity.Weight = request.BagType.Weight;
-            entity.UpdatedAt = DateTime.UtcNow;
+            entity.MarkUpdated(!string.IsNullOrWhiteSpace(request.CurrentUserId) ? request.CurrentUserId! : "System");
 
             await _repository.UpdateAsync(entity,cancellationToken);
             return true;
