@@ -26,6 +26,7 @@ namespace Identity.Application.Users.Queries.GetAllUsers
                 FirstName = p.FirstName,
                 LastName = p.LastName,
                 UserName = p.UserName,
+                DateOfBirth = p.DateOfBirth,
                 Email = p.Email,
                 Role = p.Role.Name
             });

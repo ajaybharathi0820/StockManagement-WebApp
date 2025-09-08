@@ -29,6 +29,7 @@ namespace Identity.Application.Users.Queries.GetUserById
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 UserName = user.UserName,
+                DateOfBirth = user.DateOfBirth,
                 Email = user.Email,
                 Role = user.Role.Name
             };

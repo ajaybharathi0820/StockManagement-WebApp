@@ -54,7 +54,7 @@ namespace Identity.Infrastructure.Persistence
                         "System",
                         "Admin", 
                         "admin",
-                        30,
+                        new DateTime(1990, 1, 1),
                         "admin@stockmanagement.com",
                         BCrypt.Net.BCrypt.HashPassword("Admin@123"),
                         savedAdminRole.Id

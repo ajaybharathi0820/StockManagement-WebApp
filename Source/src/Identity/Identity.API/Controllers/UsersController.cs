@@ -3,6 +3,7 @@ using Identity.Application.Users.Commands.UpdateUser;
 using Identity.Application.Users.Commands.DeleteUser;
 using Identity.Application.Users.Commands.ChangePassword;
 using Identity.Application.Users.Commands.ForgotPassword;
+using Identity.Application.Users.Commands.ResetPassword;
 using Identity.Application.Users.Queries.GetUserById;
 using Identity.Application.Users.Queries.GetAllUsers;
 using Identity.Application.Users.Queries.Login;
@@ -91,6 +92,14 @@ namespace Identity.API.Controllers
         {
             await _mediator.Send(command);
             return Ok("Password reset instructions sent");
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommand command)
+        {
+            // Admin-triggered reset; no old password required
+            await _mediator.Send(command);
+            return Ok("Password reset successfully");
         }
     }
 }

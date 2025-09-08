@@ -32,7 +32,7 @@ namespace Identity.Infrastructure.Persistence.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),

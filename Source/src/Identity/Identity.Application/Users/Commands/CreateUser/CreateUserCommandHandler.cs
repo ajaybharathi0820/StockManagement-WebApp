@@ -26,7 +26,7 @@ namespace Identity.Application.Users.Commands.CreateUser
                 request.FirstName,
                 request.LastName,
                 request.UserName,
-                request.Age,
+                request.DateOfBirth,
                 request.Email,
                 BCrypt.Net.BCrypt.HashPassword(request.Password),
                 role.Id

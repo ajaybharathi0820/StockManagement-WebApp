@@ -21,15 +21,7 @@ namespace Production.Application.Commands.CreatePolisherAssignment
                 RuleFor(x => x.polisherAssignment.PolisherName)
                 .NotEmpty().WithMessage("PolisherName is required.")
                 .MaximumLength(100);
-
-                RuleFor(x => x.polisherAssignment.CreatedDate)
-                    .LessThanOrEqualTo(DateTime.UtcNow)
-                    .WithMessage("CreatedDate cannot be in the future.");
-
-                RuleFor(x => x.polisherAssignment.CreatedBy)
-                    .NotEmpty().WithMessage("CreatedBy is required.")
-                    .MaximumLength(50);
-
+                
                 RuleForEach(x => x.polisherAssignment.Items)
                     .SetValidator(new PolisherAssignmentItemDtoValidator());
             });

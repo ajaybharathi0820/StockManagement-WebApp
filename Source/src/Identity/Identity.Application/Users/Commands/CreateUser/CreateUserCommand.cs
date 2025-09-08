@@ -6,7 +6,7 @@ namespace Identity.Application.Users.Commands.CreateUser
         string FirstName,
         string LastName,
         string UserName,
-        int Age,
+    DateTime DateOfBirth,
         string Email,
         string Password,
         Guid RoleId

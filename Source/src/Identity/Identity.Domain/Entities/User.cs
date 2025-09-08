@@ -11,8 +11,8 @@ namespace Identity.Domain.Entities
         public Guid Id { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
-        public string UserName { get; private set; }
-        public int Age { get; private set; }
+    public string UserName { get; private set; }
+    public DateTime DateOfBirth { get; private set; }
     // ...existing code...
         public string Email { get; private set; }
         public string Password { get; private set; }
@@ -24,13 +24,13 @@ namespace Identity.Domain.Entities
 
         private User() { } // EF Core
 
-        public User(string firstName, string lastName, string userName, int age, string email, string password, Guid roleId)
+        public User(string firstName, string lastName, string userName, DateTime dateOfBirth, string email, string password, Guid roleId)
         {
             Id = Guid.NewGuid();
             FirstName = firstName;
             LastName = lastName;
             UserName = userName;
-            Age = age;
+            DateOfBirth = dateOfBirth;
             Email = email;
             Password = password;
             RoleId = roleId;
@@ -44,11 +44,11 @@ namespace Identity.Domain.Entities
             Password = newPassword;
         }
 
-        public void UpdateUser(string firstName, string lastName, int age, string email, Guid roleId)
+        public void UpdateUser(string firstName, string lastName, DateTime dateOfBirth, string email, Guid roleId)
         {
             FirstName = firstName;
             LastName = lastName;
-            Age = age;
+            DateOfBirth = dateOfBirth;
             Email = email;
             RoleId = roleId;
         }

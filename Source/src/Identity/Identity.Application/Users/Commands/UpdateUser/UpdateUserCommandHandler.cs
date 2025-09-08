@@ -30,7 +30,7 @@ namespace Identity.Application.Users.Commands.UpdateUser
             user.UpdateUser(
                 request.FirstName,
                 request.LastName,
-                request.Age,
+                request.DateOfBirth,
                 request.Email,
                 role.Id
             );

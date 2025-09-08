@@ -1,4 +1,5 @@
 using FluentValidation;
+using System;
 
 namespace Identity.Application.Users.Commands.UpdateUser
 {
@@ -21,8 +22,14 @@ namespace Identity.Application.Users.Commands.UpdateUser
                 .NotEmpty().WithMessage("Email is required.")
                 .EmailAddress().WithMessage("Invalid email format.");
 
-            RuleFor(x => x.Age)
-                .InclusiveBetween(18, 120).WithMessage("Age must be between 18 and 120.");
+            RuleFor(x => x.DateOfBirth)
+                .LessThanOrEqualTo(DateTime.Today).WithMessage("Date of birth cannot be in the future.")
+                .Must(dob => {
+                    var today = DateTime.Today;
+                    var age = today.Year - dob.Year;
+                    if (dob.Date > today.AddYears(-age)) age--;
+                    return age >= 18 && age <= 120;
+                }).WithMessage("User must be between 18 and 120 years old.");
 
             RuleFor(x => x.RoleId)
                 .NotEmpty().WithMessage("Role is required.");
