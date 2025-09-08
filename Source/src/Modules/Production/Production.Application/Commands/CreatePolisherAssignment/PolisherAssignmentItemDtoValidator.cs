@@ -48,7 +48,7 @@ namespace Production.Application.Commands.CreatePolisherAssignment
                 .GreaterThanOrEqualTo(0).WithMessage("ProductAvgWeight must be non-negative.");
 
             RuleFor(x => x.ToleranceDiff)
-                .NotEmpty().WithMessage("ToleranceDiff is required.");
+                .NotNull().WithMessage("ToleranceDiff is required.");
         }
     }
 }
