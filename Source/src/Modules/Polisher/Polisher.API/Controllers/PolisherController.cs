@@ -49,6 +49,7 @@ public class PolisherController : ControllerBase
     /// Create a new polisher
     /// </summary>
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] CreatePolisherCommand command)
     {
     // Populate auditing user id from claims if available
@@ -61,6 +62,7 @@ public class PolisherController : ControllerBase
     /// Update an existing polisher
     /// </summary>
     [HttpPut("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdatePolisherCommand command)
     {
         if (id != command.Polisher.Id)
@@ -76,6 +78,7 @@ public class PolisherController : ControllerBase
     /// Delete a polisher
     /// </summary>
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(Guid id)
     {
         await _mediator.Send(new DeletePolisherCommand { Id = id });

@@ -53,6 +53,7 @@ namespace BagType.API.Controllers
         /// Create a new bag type
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] CreateBagTypeCommand command)
         {
             command.CurrentUserId ??= User?.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -64,6 +65,7 @@ namespace BagType.API.Controllers
         /// Update an existing bag type
         /// </summary>
         [HttpPut("{id:guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateBagTypeCommand command)
         {
             if (id != command.BagType.Id)
@@ -78,6 +80,7 @@ namespace BagType.API.Controllers
         /// Delete a bag type
         /// </summary>
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _mediator.Send(new DeleteBagTypeCommand { Id = id });

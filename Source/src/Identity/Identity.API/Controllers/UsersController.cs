@@ -8,6 +8,7 @@ using Identity.Application.Users.Queries.GetUserById;
 using Identity.Application.Users.Queries.GetAllUsers;
 using Identity.Application.Users.Queries.Login;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -15,7 +16,7 @@ namespace Identity.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Microsoft.AspNetCore.Authorization.Authorize]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -42,6 +43,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] CreateUserCommand command)
         {
             // Set auditing
@@ -51,6 +53,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserCommand command)
         {
             if (id != command.Id)
@@ -62,6 +65,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _mediator.Send(new DeleteUserCommand{ Id = id });
@@ -69,7 +73,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost("login")]
-        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest command)
         {
             var token = await _mediator.Send(command);
@@ -87,7 +91,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost("forgot-password")]
-        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand command)
         {
             await _mediator.Send(command);
@@ -95,6 +99,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost("reset-password")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommand command)
         {
             // Admin-triggered reset; no old password required

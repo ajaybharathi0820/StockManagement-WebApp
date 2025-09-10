@@ -56,6 +56,7 @@ namespace Product.API.Controllers
 
         // POST: api/product
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ProductDto>> Create([FromBody] CreateProductCommand command)
         {
             // populate CurrentUserId for auditing
@@ -66,6 +67,7 @@ namespace Product.API.Controllers
 
         // PUT: api/product/{id}
         [HttpPut("{id:guid}")]
+        [Authorize(Roles = "Admin")]
     public async Task<ActionResult> Update(Guid id, [FromBody] UpdateProductCommand command)
         {
             if (id != command.Product.Id) return BadRequest("Product ID mismatch");
@@ -77,6 +79,7 @@ namespace Product.API.Controllers
 
         // DELETE: api/product/{id}
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _mediator.Send(new DeleteProductCommand{ Id = id });
