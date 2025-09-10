@@ -32,6 +32,22 @@ namespace Product.Infrastructure.Repositories
                 .FirstOrDefaultAsync(p => p.ProductCode == productCode && p.IsActive, cancellationToken);
         }
 
+        public async Task<bool> IsNameExistsAsync(string name, Guid? excludeId = null, CancellationToken cancellationToken = default)
+        {
+            var query = _context.Products.Where(p => p.Name.ToLower() == name.ToLower() && p.IsActive);
+            if (excludeId.HasValue)
+                query = query.Where(p => p.Id != excludeId.Value);
+            return await query.AnyAsync(cancellationToken);
+        }
+
+        public async Task<bool> IsCodeExistsAsync(string code, Guid? excludeId = null, CancellationToken cancellationToken = default)
+        {
+            var query = _context.Products.Where(p => p.ProductCode.ToLower() == code.ToLower() && p.IsActive);
+            if (excludeId.HasValue)
+                query = query.Where(p => p.Id != excludeId.Value);
+            return await query.AnyAsync(cancellationToken);
+        }
+
         public async Task<IEnumerable<Product.Domain.Entities.Product>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             return await _context.Products

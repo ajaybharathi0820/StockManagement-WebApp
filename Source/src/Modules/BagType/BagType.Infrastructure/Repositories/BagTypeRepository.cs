@@ -26,6 +26,14 @@ namespace BagType.Infrastructure.Repositories
             return await _context.BagTypes.AsNoTracking().Where(b => b.IsActive).ToListAsync(cancellationToken);
         }
 
+        public async Task<bool> IsNameExistsAsync(string name, Guid? excludeId = null, CancellationToken cancellationToken = default)
+        {
+            var query = _context.BagTypes.Where(b => b.Name.ToLower() == name.ToLower() && b.IsActive);
+            if (excludeId.HasValue)
+                query = query.Where(b => b.Id != excludeId.Value);
+            return await query.AnyAsync(cancellationToken);
+        }
+
         public async Task AddAsync(BagType.Domain.Entities.BagType bagType, CancellationToken cancellationToken)
         {
             await _context.BagTypes.AddAsync(bagType, cancellationToken);

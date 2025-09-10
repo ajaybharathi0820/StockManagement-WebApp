@@ -35,6 +35,25 @@ public class PolisherRepository : IPolisherRepository
             .FirstOrDefaultAsync(p => p.Id == id && p.IsActive, cancellationToken);
     }
 
+    public async Task<bool> IsContactNumberExistsAsync(string contactNumber, Guid? excludeId = null, CancellationToken cancellationToken = default)
+    {
+        var query = _context.Polishers.Where(p => p.ContactNumber == contactNumber && p.IsActive);
+        if (excludeId.HasValue)
+            query = query.Where(p => p.Id != excludeId.Value);
+        return await query.AnyAsync(cancellationToken);
+    }
+
+    public async Task<bool> IsNameCombinationExistsAsync(string firstName, string lastName, Guid? excludeId = null, CancellationToken cancellationToken = default)
+    {
+        var query = _context.Polishers.Where(p => 
+            p.FirstName.ToLower() == firstName.ToLower() && 
+            p.LastName.ToLower() == lastName.ToLower() && 
+            p.IsActive);
+        if (excludeId.HasValue)
+            query = query.Where(p => p.Id != excludeId.Value);
+        return await query.AnyAsync(cancellationToken);
+    }
+
     public async Task UpdateAsync(Polisher.Domain.Entities.Polisher polisher, CancellationToken cancellationToken)
     {
         _context.Polishers.Update(polisher);

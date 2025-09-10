@@ -1,12 +1,17 @@
 // Application/Commands/UpdatePolisher/UpdatePolisherCommandValidator.cs
 using FluentValidation;
+using Polisher.Domain.Repositories;
 
 namespace Polisher.Application.Commands.UpdatePolisher;
 
 public class UpdatePolisherCommandValidator : AbstractValidator<UpdatePolisherCommand>
 {
-    public UpdatePolisherCommandValidator()
+    private readonly IPolisherRepository _polisherRepository;
+
+    public UpdatePolisherCommandValidator(IPolisherRepository polisherRepository)
     {
+        _polisherRepository = polisherRepository;
+
         RuleFor(x => x.Polisher.Id)
             .NotEmpty().WithMessage("Polisher ID is required.");
 
@@ -22,6 +27,12 @@ public class UpdatePolisherCommandValidator : AbstractValidator<UpdatePolisherCo
 
         RuleFor(x => x.Polisher.ContactNumber)
             .NotEmpty().WithMessage("Contact number is required.")
-            .Matches(@"^\d{10}$").WithMessage("Contact number must be 10 digits.");
+            .Matches(@"^\d{10}$").WithMessage("Contact number must be 10 digits.")
+            .MustAsync(async (command, contactNumber, cancellation) => !await _polisherRepository.IsContactNumberExistsAsync(contactNumber, command.Polisher.Id, cancellation))
+            .WithMessage("Contact number already exists. Please choose a different contact number.");
+
+        RuleFor(x => x.Polisher)
+            .MustAsync(async (command, polisher, cancellation) => !await _polisherRepository.IsNameCombinationExistsAsync(polisher.FirstName, polisher.LastName, polisher.Id, cancellation))
+            .WithMessage("A polisher with the same first name and last name combination already exists.");
     }
 }

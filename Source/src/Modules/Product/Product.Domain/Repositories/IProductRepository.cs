@@ -14,6 +14,10 @@ namespace Product.Domain.Repositories
         Task<Domain.Entities.Product> GetByCodeAsync(string productCode, CancellationToken cancellationToken = default);
         Task<IEnumerable<Domain.Entities.Product>> GetAllAsync(CancellationToken cancellationToken = default);
 
+        // Validation
+        Task<bool> IsNameExistsAsync(string name, Guid? excludeId = null, CancellationToken cancellationToken = default);
+        Task<bool> IsCodeExistsAsync(string code, Guid? excludeId = null, CancellationToken cancellationToken = default);
+
         // Update
         Task UpdateAsync(Domain.Entities.Product product, CancellationToken cancellationToken = default);
 
